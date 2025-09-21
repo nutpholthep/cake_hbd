@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>HBD 🎂 เป่าเค้กด้วยเสียง</title>
+  <meta name="theme-color" content="#ff6fb5" />
+  <meta name="description" content="เว็บไซต์อวยพรวันเกิด เป่าเค้กด้วยเสียงบนมือถือและพีซี" />
+  <style>
+    :root{
+      --bg: #0f0e17; --card: #1b1a23; --accent: #ff6fb5; --accent2: #ffd166; --text:#eaeaea; --muted:#a0a0b8;
+      --success:#6ee7b7; --warning:#fbbf24; --danger:#fb7185;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: radial-gradient(1200px 600px at 70% -10%, #192039 0%, #0f0e17 50%); color:var(--text); display:grid; place-items:center}
+    .wrap{ width:min(100%, 980px); padding:24px }
+    .card{ position:relative; background: linear-gradient(180deg,#1d1b28,#13121a); border:1px solid rgba(255,255,255,.08); border-radius:24px; padding:24px; box-shadow: 0 10px 30px rgba(0,0,0,.35) }
+    header{ position:relative; z-index:3; display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap }
+    h1{ margin:0; font-size: clamp(24px, 4vw, 40px); letter-spacing:.3px }
+    .subtitle{ color:var(--muted); font-size:clamp(14px,2.6vw,16px)}
+    .controls{ display:flex; gap:10px; flex-wrap:wrap }
+    button{ appearance:none; border:1px solid rgba(255,255,255,.12); background:#232231; color:var(--text); padding:12px 16px; border-radius:12px; font-weight:600; cursor:pointer; transition:.2s }
+    button:hover{ filter:brightness(1.05)}
+    .btn-primary{ background:linear-gradient(180deg,#ff7fbd,#ff5aa8); border-color:#ff7fbd }
+    .btn-ghost{ background:transparent }
+    .status{ margin-top:8px; font-size:14px; color:var(--muted) }
+
+    .panel{ display:flex; gap:12px; align-items:center; margin-top:10px; flex-wrap:wrap }
+    .meter{ position:relative; width:220px; height:10px; background:#2b2a3b; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.08) }
+    .meter>i{ position:absolute; left:0; top:0; bottom:0; width:0%; background:linear-gradient(90deg,#5eead4,#fde68a,#fb7185) }
+    .field{ display:flex; align-items:center; gap:8px; color:#c9cbe1; font-size:13px }
+    input[type=range]{ width:160px }
+
+    .stage{ position:relative; display:grid; place-items:center; padding:28px 0 8px }
+    .table{ width:100%; height:18px; background:linear-gradient(180deg,#2b2a3b,#1a1924); border-radius:12px; filter:drop-shadow(0 10px 25px rgba(0,0,0,.35)) }
+
+    .cake{ position:relative; width:min(560px, 92vw); aspect-ratio: 16/10; display:grid; place-items:center; margin:0 auto }
+    .cake-body{ position:absolute; bottom:6%; width:86%; height:45%; left:50%; transform:translateX(-50%); background:linear-gradient(180deg,#ffe0e9,#ffc1da 40%, #ff9ec5 40%, #ff89b9 75%, #ff6fb5 90%); border-radius:22px; border:1px solid rgba(0,0,0,.08); overflow:hidden }
+    .cake-body:before{ content:""; position:absolute; inset:auto 0 55% 0; height:45%; background:repeating-linear-gradient(90deg, rgba(255,255,255,.55) 0 14px, rgba(255,255,255,.35) 14px 28px); opacity:.4 }
+    .plate{ position:absolute; bottom:0; width:95%; height:12%; left:50%; transform:translateX(-50%); border-radius:40px; background: radial-gradient(200px 20px at 50% 30%, #fff 0%, #e9e9ea 50%, #cfcfd4 100%); box-shadow: 0 8px 30px rgba(0,0,0,.45) }
+
+    .candles{ position:absolute; bottom:45%; left:50%; transform:translateX(-50%); display:flex; gap:18px; align-items:flex-end }
+    .candle{ position:relative; width:14px; height:64px; background:repeating-linear-gradient(180deg,#ffd3e8,#ffd3e8 8px,#ffc7e0 8px,#ffc7e0 16px); border-radius:6px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.04) }
+    .wick{ position:absolute; top:-8px; left:50%; transform:translateX(-50%); width:2px; height:10px; background:#333; border-radius:1px }
+
+    .flame{ position:absolute; top:-30px; left:50%; transform:translateX(-50%); width:22px; height:30px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%; background: radial-gradient(ellipse at 50% 60%, #fff6b3 0%, #ffd166 40%, #ff9900 70%, rgba(255,153,0,.0) 72%); box-shadow: 0 0 18px 10px rgba(255,209,102,.35), 0 0 40px 20px rgba(255,105,180,.08); animation: flicker .15s infinite; transform-origin: 50% 90% }
+    .flame:after{ content:""; position:absolute; inset:4px 6px auto 6px; height:12px; border-radius:50%; background:radial-gradient(ellipse at center, rgba(255,255,255,.9), rgba(255,255,255,0) 70%); filter:blur(1px); opacity:.9 }
+    @keyframes flicker{ 0%{ transform: translateX(-50%) scale(1) rotate(-1deg) } 50%{ transform: translateX(-50%) scale(1.07) rotate(1.5deg) } 100%{ transform: translateX(-50%) scale(.96) rotate(-.8deg) } }
+    .flame.out{ animation:none; opacity:0; transform:translateX(-50%) translateY(6px) scale(.3); box-shadow:none }
+
+    .confetti{ position:absolute; inset:0; pointer-events:none; overflow:hidden }
+    .confetti i{ position:absolute; width:8px; height:14px; background:var(--accent); top:-20px; border-radius:2px; opacity:.9; animation: fall linear forwards }
+    @keyframes fall{ to{ transform: translateY(110vh) rotate(600deg)} }
+
+    .footer{ margin-top:18px; text-align:center; color:var(--muted); font-size:13px }
+    .badges{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:6px }
+    .badge{ font-size:12px; background:#222131; border:1px solid rgba(255,255,255,.08); padding:6px 10px; border-radius:999px }
+    .name{ font-weight:700; color:var(--accent) }
+
+    .toast{ position:fixed; top:16px; left:50%; transform:translateX(-50%); background:#1f2937; border:1px solid rgba(255,255,255,.12); padding:10px 14px; border-radius:12px; color:#e5e7eb; font-size:14px; box-shadow:0 10px 24px rgba(0,0,0,.35); display:none; z-index:10 }
+    .toast.show{ display:block }
+    .marquee{ margin-top:8px; overflow:hidden; white-space:nowrap; mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent) }
+    .marquee span{ display:inline-block; padding-left:100%; animation: marquee 18s linear infinite }
+    @keyframes marquee{ to{ transform: translateX(-100%) } }
+    .hint{ font-size:13px; color:#aeb1c2 }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <header>
+        <div>
+          <h1>สุขสันต์วันเกิด <span class="name" id="name">ที่รัก</span> 🎉</h1>
+          <div class="subtitle">ปักเทียน • เปิดไมค์ • เป่าเค้กได้จริง (มือถือ/พีซี)</div>
+        </div>
+        <div class="controls">
+          <button id="btnMusic" aria-pressed="false">▶️ เพลง HBD</button>
+          <button id="btnMic" class="btn-primary">🎤 เปิดไมค์เพื่อเป่า</button>
+          <button id="btnRelight" class="btn-ghost" title="จุดเทียนใหม่">🕯️ จุดเทียนใหม่</button>
+          <button id="btnBlowNow" class="btn-ghost" title="จำลองการเป่า">💨 ทดลองเป่า</button>
+          <button id="btnShare" class="btn-ghost" title="แชร์ลิงก์พร้อมชื่อ">🔗 แชร์</button>
+        </div>
+      </header>
+
+      <div class="status" id="status">พร้อมแล้วกด “เปิดไมค์เพื่อเป่า” หรือใช้ปุ่ม “💨 ทดลองเป่า”</div>
+
+      <div class="panel">
+        <div class="meter" aria-label="Mic level"><i id="meterFill"></i></div>
+        <div class="field">ความไวไมค์ <input id="sens" type="range" min="0.10" max="0.50" step="0.02" value="0.26" /><span id="sensVal">0.26</span></div>
+        <div class="field" id="secureHint" style="display:none; color:#fda4af">⚠️ เปิดผ่าน <b>http://localhost</b> หรือ <b>https://</b> เท่านั้น (ไฟล์แบบ file:// จะใช้ไมค์ไม่ได้)</div>
+      </div>
+
+      <section class="stage" aria-label="Birthday cake">
+        <div class="cake" id="cake">
+          <div class="candles" id="candles" aria-live="polite"></div>
+          <div class="cake-body"></div>
+          <div class="plate"></div>
+          <div class="confetti" id="confetti"></div>
+        </div>
+        <div class="table"></div>
+      </section>
+
+      <div class="marquee"><span id="banner">Today’s the best gift is YOU ✨ ขอให้มีความสุขมาก ๆ นะ</span></div>
+
+      <div class="footer">
+        <div class="badges">
+          <div class="badge">มือถือ/พีซี ได้ (ต้องอนุญาตไมค์)</div>
+          <div class="badge">ไม่มีไมค์? ใช้ “💨 ทดลองเป่า”</div>
+          <div class="badge">แตะเทียนเพื่อจุดใหม่</div>
+        </div>
+        <div class="hint">ทิป: ถ้าไมค์นิ่งเกินไป ลดค่า “ความไวไมค์” ลง หรือเป่าใกล้ไมค์ขึ้น</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">เริ่มฟังเสียง… เป่าได้เลย 🎂</div>
+
+  <script>
+  const $ = (s,el=document)=>el.querySelector(s);
+  const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
+  const toast=(m)=>{ const t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200) };
+
+  // Secure-context hint for mic
+  if(!(location.protocol.startsWith('http') || location.hostname==='localhost')){
+    $('#secureHint').style.display='flex';
+  }
+
+  // Params
+  const params=new URLSearchParams(location.search); const who=params.get('name')?.trim();
+  if(who){ $('#name').textContent=who; $('#banner').textContent=`สุขสันต์วันเกิด ${who}! ขอให้สมหวัง แข็งแรง และยิ้มได้ทุกวัน 🥳`; }
+
+  // Build candles
+  const CANDLE_COUNT=6; const candlesEl=$('#candles');
+  function buildCandles(){
+    candlesEl.innerHTML='';
+    for(let i=0;i<CANDLE_COUNT;i++){
+      const c=document.createElement('div'); c.className='candle'; c.setAttribute('role','img');
+      const wick=document.createElement('div'); wick.className='wick';
+      const flame=document.createElement('div'); flame.className='flame'; flame.dataset.lit='1';
+      c.appendChild(wick); c.appendChild(flame);
+      c.addEventListener('click',()=>relightOne(flame));
+      candlesEl.appendChild(c);
+    }
+  }
+  buildCandles();
+  const flames=()=>$$('.flame',candlesEl);
+  const allOut=()=>flames().every(f=>f.classList.contains('out'));
+  function relightAll(){ flames().forEach(f=>{ f.classList.remove('out'); f.dataset.lit='1'; }); }
+  function relightOne(f){ f.classList.remove('out'); f.dataset.lit='1'; }
+  function blowOut(){ flames().forEach(f=>{ f.classList.add('out'); f.dataset.lit='0'; }); celebration(); }
+
+  // Confetti
+  function celebration(){ const box=$('#confetti'); box.innerHTML=''; const n=120; for(let i=0;i<n;i++){ const e=document.createElement('i'); e.style.left=Math.random()*100+'vw'; e.style.background=['#ff6fb5','#ffd166','#6ee7b7','#93c5fd','#fda4af'][Math.floor(Math.random()*5)]; e.style.animationDuration=(4+Math.random()*3)+'s'; e.style.transform=`translateY(-20px) rotate(${Math.random()*360}deg)`; box.appendChild(e);} setTimeout(()=>box.innerHTML='',8000); }
+
+  // Music (synth, no mp3 dependencies)
+  let songNodes=[]; let songPlaying=false; let audioCtx=null;
+  function ensureAudio(){ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
+  const NOTES={C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00, A4:440.00, B4:493.88, C5:523.25, D5:587.33, E5:659.25, F5:698.46, G5:783.99};
+  // Approx Happy Birthday (key C)
+  const SCORE=[["G4",0.4],["G4",0.4],["A4",0.6],["G4",0.6],["C5",0.6],["B4",0.9],["G4",0.4],["G4",0.4],["A4",0.6],["G4",0.6],["D5",0.6],["C5",1.0],["G4",0.4],["G4",0.4],["G5",0.6],["E5",0.6],["C5",0.6],["B4",0.6],["A4",0.9],["F5",0.4],["F5",0.4],["E5",0.6],["C5",0.6],["D5",0.6],["C5",1.2]];
+  function playSong(){ const ctx=ensureAudio(); stopSong(); let t=ctx.currentTime+0.02; const master=ctx.createGain(); master.gain.setValueAtTime(0.12,t); master.connect(ctx.destination); let last=0; SCORE.forEach(([n,d],i)=>{ const osc=ctx.createOscillator(); osc.type='triangle'; const g=ctx.createGain(); const f=NOTES[n]||440; osc.frequency.setValueAtTime(f,t+last); g.gain.setValueAtTime(0.0001,t+last); g.gain.exponentialRampToValueAtTime(0.25,t+last+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+last+d-0.02); osc.connect(g); g.connect(master); osc.start(t+last); osc.stop(t+last+d); songNodes.push(osc,g); last+=d+0.04; }); songPlaying=true; }
+  function stopSong(){ if(songNodes.length){ try{ songNodes.forEach(n=>{ if(n.stop) n.stop(); if(n.disconnect) n.disconnect(); }); }catch{} songNodes=[]; } songPlaying=false; }
+
+  const btnMusic=$('#btnMusic');
+  btnMusic.addEventListener('click',()=>{ const ctx=ensureAudio(); if(ctx.state==='suspended'){ ctx.resume(); } if(songPlaying){ stopSong(); btnMusic.textContent='▶️ เพลง HBD'; btnMusic.setAttribute('aria-pressed','false'); } else { playSong(); btnMusic.textContent='⏸️ หยุดเพลง'; btnMusic.setAttribute('aria-pressed','true'); } });
+
+  // Microphone + blow detection
+  const btnMic=$('#btnMic'); const statusEl=$('#status'); const meterFill=$('#meterFill'); const sens=$('#sens'); const sensVal=$('#sensVal');
+  let analyser, source, dataArray, highpass, rafId, listening=false, mediaStream;
+  let THRESHOLD=parseFloat(sens.value); sens.addEventListener('input',()=>{ THRESHOLD=parseFloat(sens.value); sensVal.textContent=sens.value; });
+
+  async function startMic(){
+    if(listening){ stopMic(); return; }
+    try{
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation:true, noiseSuppression:false, autoGainControl:false } });
+      mediaStream=stream; const ctx=ensureAudio();
+      source = ctx.createMediaStreamSource(stream);
+      highpass = ctx.createBiquadFilter(); highpass.type='highpass'; highpass.frequency.value=500;
+      analyser = ctx.createAnalyser(); analyser.fftSize=1024; dataArray=new Uint8Array(analyser.fftSize);
+      source.connect(highpass); highpass.connect(analyser);
+      listening=true; btnMic.textContent='🛑 หยุดฟังไมค์'; statusEl.textContent='กำลังฟัง… เป่าลงไมค์ ~0.5 วินาที เพื่อดับเทียน'; toast('เริ่มฟังเสียง… เป่าได้เลย 🎂');
+      loop();
+    }catch(err){ console.error(err); statusEl.textContent='ไมค์ไม่พร้อม: โปรดอนุญาตไมค์ และเปิดผ่าน http(s) หรือ localhost'; toast('อนุญาตไมค์ไม่สำเร็จ'); }
+  }
+  function stopMic(){ listening=false; btnMic.textContent='🎤 เปิดไมค์เพื่อเป่า'; statusEl.textContent='หยุดฟังไมค์แล้ว'; if(rafId) cancelAnimationFrame(rafId); try{ if(mediaStream){ mediaStream.getTracks().forEach(t=>t.stop()); } }catch{} }
+
+  const HOLD_MS=360; let overStart=0;
+  function loop(){ analyser.getByteTimeDomainData(dataArray); let sumSq=0; for(let i=0;i<dataArray.length;i++){ const v=(dataArray[i]-128)/128; sumSq+=v*v; } const rms=Math.sqrt(sumSq/dataArray.length); meterFill.style.width=Math.min(100, (rms*250))+'%';
+    if(rms>THRESHOLD){ if(!overStart) overStart=performance.now(); const dur=performance.now()-overStart; statusEl.textContent=`ลมแรงกำลังดี… (${(rms*100|0)}%)`; if(dur>HOLD_MS){ if(!allOut()){ blowOut(); statusEl.textContent='เยี่ยมมาก! เทียนดับแล้ว 🎉 แตะเทียนหรือกด “จุดเทียนใหม่” เพื่อจุดอีกครั้ง'; } overStart=0; } }
+    else { overStart=0; }
+    if(listening) rafId=requestAnimationFrame(loop);
+  }
+
+  // Buttons
+  btnMic.addEventListener('click', startMic);
+  $('#btnRelight').addEventListener('click', ()=>{ relightAll(); statusEl.textContent='จุดเทียนใหม่แล้ว'; });
+  $('#btnBlowNow').addEventListener('click', ()=>{ blowOut(); statusEl.textContent='จำลองการเป่า: เทียนดับแล้ว 🎉'; });
+  $('#btnShare').addEventListener('click', async()=>{ const url=new URL(location.href); if(who){ url.searchParams.set('name', who); } try{ await navigator.share({ title:'HBD 🎂', text:`สุขสันต์วันเกิด ${who||'ที่รัก'} มาร่วมเป่าเทียนกัน!`, url:url.toString() }); }catch(err){ try{ await navigator.clipboard.writeText(url.toString()); toast('คัดลอกลิงก์แล้ว ✓'); }catch{ toast('คัดลอกลิงก์ไม่สำเร็จ'); } } });
+
+  // Keyboard a11y
+  document.addEventListener('keydown', (e)=>{ if(e.key===' ') { e.preventDefault(); relightAll(); } if(e.key==='b') blowOut(); if(e.key==='m') startMic(); if(e.key==='p'){ playSong(); } });
+  </script>
+</body>
+</html>
